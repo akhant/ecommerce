@@ -1,6 +1,8 @@
 const router = require("express").Router();
 import User from "../models/user";
 
+
+
 router.get("/signup", (req, res) => {
   res.render("accounts/signup", {
     errors: req.flash('errors')
