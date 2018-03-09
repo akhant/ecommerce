@@ -1,9 +1,9 @@
 
 <div class="row">
     <div class="form_wrapper">
-<h1>Login</h1>
+<h1>Add a new category</h1>
         {{#if message }}
-        <div class="alert alert-danger alert-dismissible">
+        <div class="alert alert-success alert-dismissible">
             <button class="close" type="button" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">
                     &times;
@@ -15,18 +15,15 @@
         <form method="post" class="form_submit">
 
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" name="email">
+                <label >Category name:</label>
+                <input type="text" class="form-control" name="name">
             </div>
 
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" name="password">
-            </div>
+            
 
 
 
-            <button type="submit" class="btn btn-success" id="btn_submit">submit</button>
+            <button type="submit" class="btn btn-success" id="btn_submit">Add</button>
 
         </form>
     </div>

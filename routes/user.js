@@ -3,6 +3,8 @@ import passport from "passport";
 import passportConf from "../config/passport";
 import User from "../models/user";
 
+
+//login
 router.get("/login", (req, res) => {
   if (req.user) return res.redirect("/");
   res.render("accounts/login", { message: req.flash("loginMessage") });
@@ -17,11 +19,13 @@ router.post(
   })
 );
 
+//logout
 router.get("/logout", (req, res, next) => {
   req.logout();
   res.redirect("/");
 });
 
+//edit-profile
 router.get("/edit-profile", (req, res, next) => {
   res.render("accounts/edit-profile", { message: req.flash("success") });
 });
@@ -34,7 +38,7 @@ router.post("/edit-profile", (req, res, next) => {
     user.save(err => {
       if (err) return next(err);
       req.flash("success", "successfilly editing your profile");
-      return res.redirect("/edit-profile");
+      return res.redirect("/profile");
     });
   });
 });
@@ -46,6 +50,7 @@ router.get("/profile", (req, res, next) => {
   });
 });
 
+//signup
 router.get("/signup", (req, res) => {
   res.render("accounts/signup", {
     errors: req.flash("errors")

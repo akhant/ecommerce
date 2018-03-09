@@ -1,6 +1,12 @@
 body {
     margin: 100px 0;
     
+    
+}
+
+footer {
+    padding-top: 300px;
+    text-align: center;
 }
 
 #navbar-gap {
@@ -26,3 +32,4 @@ body {
 .form-group {
     text-align: left;
 }
+

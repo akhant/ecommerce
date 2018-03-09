@@ -39,6 +39,7 @@ import flash from 'express-flash'
 import passport from 'passport'
 import session from 'express-session'
 const MongoStore = require('connect-mongo')(session);
+import Category from './models/category'
 
 app.use(morgan("dev"));
 app.use(express.static(__dirname + "/public"));
@@ -57,14 +58,25 @@ app.use((req,res,next)=>{
   res.locals.user = req.user
   next()
 })
+app.use((req,res,next) => {
+  Category.find({}, (err, categories) => {
+    if (err) return next(err)
+    res.locals.categories = categories
+    next()
+  }
+  )
+}
+)
 app.use(flash());
 
 //routes
 import router from "./routes";
 import userRoutes from "./routes/user";
+import adminRoutes from './routes/admin'
 
 app.use(router);
 app.use(userRoutes);
+app.use(adminRoutes)
 
 //server
 app.listen(secret.port, err => {

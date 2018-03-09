@@ -5,14 +5,26 @@
       aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="/">Home</a>
   </div>
 
   <div class="col-sm-1">
 
     <ul class="nav navbar-nav navbar-right">
+      
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Categories</a>
+        <ul class="dropdown-menu">
+          {{#forEach categories }}
+          <li>
+            <a href="/{{name}}">{{name}}</a>
+          </li>
+          {{/forEach}}
+        </ul>
+      </li>
+
       {{#not user}}
-         <li>
+      <li>
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Signup / Login</a>
         <ul class="dropdown-menu">
           <li>
@@ -23,9 +35,9 @@
           </li>
         </ul>
       </li>
-      
+
       {{else}}
- 
+
       <li>
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{user.profile.name}}</a>
         <ul class="dropdown-menu">
@@ -37,7 +49,7 @@
           </li>
         </ul>
       </li>
-      
+
       {{/not}}
 
     </ul>
