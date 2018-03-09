@@ -1,0 +1,33 @@
+<h1>Login</h1>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+        {{#if message }}
+        <div class="alert alert-danger alert-dismissible">
+            <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">
+                    &times;
+                </span>
+            </button>
+            {{ message }}
+        </div>
+        {{/if}}
+        <form method="post" id="form_submit">
+
+            <div class="form-group">
+                <label action="email">Email:</label>
+                <input type="email" class="form-control" name="email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" name="password">
+            </div>
+
+
+
+            <button type="submit" class="btn btn-success" id="btn_submit">submit</button>
+
+        </form>
+    </div>
+</div>

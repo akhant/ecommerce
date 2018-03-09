@@ -1,10 +1,13 @@
 import secret from './config/secret'
 
+
+
+//express init
 import express from "express";
 
 const app = express();
 
-//mongodb
+//mongoose connect to db
 import mongoose from "mongoose";
 
 mongoose.connect(secret.database, err => {
@@ -30,6 +33,7 @@ import morgan from "morgan";
 import bodyParser from "body-parser";
 import cookieParser from 'cookie-parser'
 import flash from 'express-flash'
+import passport from 'passport'
 import session from 'express-session'
 const MongoStore = require('connect-mongo')(session);
 
@@ -44,6 +48,8 @@ app.use(session({
   secret: secret.secretKey,
   store: new MongoStore({ url: secret.database, autoReconnect: true})
 }));
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(flash());
 
 //routes

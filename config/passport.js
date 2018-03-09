@@ -1,7 +1,7 @@
 import passport from "passport";
 import User from "../models/user";
 
-const LocalStrategy = require("passport-local").Strategy();
+const LocalStrategy = require("passport-local").Strategy;
 
 //serialize and deserialize
 passport.serializeUser((user, done) => {
@@ -20,11 +20,11 @@ passport.use(
   new LocalStrategy(
     {
       usernameField: "email",
-      passwordField: "passsword",
+      passwordField: "password",
       passReqToCallback: true
     },
-    (req, email, password, done) => {
-      User.findOne({ email: email }, (err, user) => {
+    function(req, email, password, done){
+      User.findOne({ email: email }, function(err, user) {
         if (err) return done(err);
 
         if (!user) {
@@ -46,11 +46,9 @@ passport.use(
 );
 
 //custom function to validate
-const isAuthenticated = (req,res,next) => {
-    if (req.isAuthenticated() ) {
-        return next()
-    }
-    res.redirect('/login')
-}
-
-export isAuthenticated 
+exports.isAuthenticated = function(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/login");
+};
