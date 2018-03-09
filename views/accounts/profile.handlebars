@@ -1,1 +1,20 @@
-<p>hello {{user.profile.name}}</p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 cos-md-4">
+            <img src="{{user.profile.picture}}" alt="pic" class="img-circle img-responsive img-center">
+            <br/>
+            <p>Name: {{user.profile.name}}</p>
+            <p>Email: {{user.email}}</p>
+
+            {{#not user.address}}
+            <p>Address: <span style="color: red">Fill the address</span></p>
+            {{else}}
+            <p>Address: {{user.address}}</p>
+            {{/not}}
+            
+        </div>
+        
+    </div>
+    <a href="/edit-profile" class="btn btn-primary btn-lg">Edit Profile</a>
+
+</div>

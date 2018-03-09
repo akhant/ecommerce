@@ -1,9 +1,9 @@
 
 <div class="row">
     <div class="form_wrapper">
-<h1>Login</h1>
+<h1>Edit profile</h1>
         {{#if message }}
-        <div class="alert alert-danger alert-dismissible">
+        <div class="alert alert-success alert-dismissible">
             <button class="close" type="button" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">
                     &times;
@@ -13,15 +13,19 @@
         </div>
         {{/if}}
         <form method="post" class="form_submit">
-
-            <div class="form-group">
-                <label action="email">Email:</label>
-                <input type="email" class="form-control" name="email">
+             <div class="form-group">
+                <label action="email">Name:</label>
+                <input type="text" class="form-control" value="{{user.profile.name}}" name="name">
             </div>
 
+           {{!--  <div class="form-group">
+                <label action="email">Email:</label>
+                <input type="email" class="form-control" value="{{user.email}}" name="email">
+            </div> --}}
+
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" name="password">
+                <label for="password">Adress:</label>
+                <input type="text" class="form-control" value="{{user.address}}" name="address">
             </div>
 
 

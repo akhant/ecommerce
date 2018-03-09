@@ -2,6 +2,7 @@ import secret from './config/secret'
 
 
 
+
 //express init
 import express from "express";
 
@@ -20,6 +21,7 @@ mongoose.connect(secret.database, err => {
 
 //handlebars
 import exphbs from "express-handlebars";
+var helpers = require('handlebars-helpers')();
 
 const hbs = exphbs.create({
   defaultLayout: "main",
@@ -27,6 +29,7 @@ const hbs = exphbs.create({
 });
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
+
 
 //middlewares
 import morgan from "morgan";
@@ -50,6 +53,10 @@ app.use(session({
 }));
 app.use(passport.initialize())
 app.use(passport.session())
+app.use((req,res,next)=>{
+  res.locals.user = req.user
+  next()
+})
 app.use(flash());
 
 //routes

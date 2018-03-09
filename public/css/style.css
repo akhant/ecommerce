@@ -1,3 +1,28 @@
 body {
-    margin: 100px 0
+    margin: 100px 0;
+    
+}
+
+#navbar-gap {
+    margin-top: -2%;
+}
+
+.tacenter {
+    text-align: center;
+}
+
+.form_wrapper {
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+}
+
+.form_submit {
+    width: 50%;
+    margin: 40px auto;
+    
+}
+
+.form-group {
+    text-align: left;
 }

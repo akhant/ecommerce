@@ -1,7 +1,8 @@
-<h1>Signup</h1>
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
+<div class="container">
 
+<div class="row">
+    <div class="form_wrapper">
+<h1>Signup</h1>
         {{#if errors }}
             <div class="alert alert-danger alert-dismissible">
                 <button class="close" type="button" data-dismiss="alert" aria-label="Close" >
@@ -12,10 +13,10 @@
                 {{ errors }}
             </div>   
         {{/if}}
-        <form method="post" id="form_submit" >
+        <form method="post" class="form_submit"  >
             <div class="form-group" >
                 <label for="text">Username:</label>
-                <input type="text" class="form-control" name="text" >
+                <input type="text" class="form-control" name="name" >
             </div>
             
             <div class="form-group">
@@ -34,3 +35,5 @@
     </div>
 </div>
 
+
+</div>
