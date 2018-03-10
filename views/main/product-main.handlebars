@@ -1,0 +1,46 @@
+<div class="jumbotron" id="navbar-gap">
+    <div class="container">
+        <h1 class="display-3">Product main page</h1>
+        <p>Find what you want</p>
+        {{!--
+        <p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a>
+        </p> --}}
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+
+        {{#forEach products}}
+        <div class="col-md-4">
+            <a href="/product/{{_id}}">
+                <div class="thumbnail">
+                    <img src="{{image}}" style="width:300px;" alt="">
+                    <div class="caption">
+                        <h3>{{name}}</h3>
+                        <p>{{category.name}}</p>
+                        <p>${{price}}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {{/forEach}}
+        <nav aria-label="Page navigation" class="pagination_nav">
+            <ul class="pagination text-center">
+                <li>
+                    {{#eachIndex pages}}
+
+                    <li class="page-item">
+
+                        <a class="page-link" href="/page/{{item}}">{{item}}</a>
+                    </li>
+
+
+                    {{/eachIndex}}
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
