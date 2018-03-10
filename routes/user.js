@@ -2,7 +2,8 @@ const router = require("express").Router();
 import passport from "passport";
 import passportConf from "../config/passport";
 import User from "../models/user";
-
+import waterfall from "async/waterfall";
+import Cart from '../models/cart'
 
 //login
 router.get("/login", (req, res) => {
@@ -58,27 +59,38 @@ router.get("/signup", (req, res) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  let user = new User();
-  user.profile.name = req.body.name;
-  user.password = req.body.password;
-  user.email = req.body.email;
-  user.profile.picture = user.gravatar();
+  waterfall([
+    cb => {
+      let user = new User();
+      user.profile.name = req.body.name;
+      user.password = req.body.password;
+      user.email = req.body.email;
+      user.profile.picture = user.gravatar();
 
-  User.findOne({ email: req.body.email }, (err, existingUser) => {
-    if (existingUser) {
-      req.flash("errors", "Account already exist");
-      return res.redirect("/signup");
-    } else {
-      user.save((err, user) => {
+      User.findOne({ email: req.body.email }, (err, existingUser) => {
+        if (existingUser) {
+          req.flash("errors", "Account already exist");
+          return res.redirect("/signup");
+        } else {
+          user.save((err, user) => {
+            if (err) return next(err);
+            cb(null, user);
+          });
+        }
+      });
+    },
+    user => {
+      const cart = new Cart();
+      cart.owner = user._id;
+      cart.save(err => {
         if (err) return next(err);
-
         req.logIn(user, err => {
           if (err) return next(err);
           res.redirect("/profile");
         });
       });
     }
-  });
+  ]);
 });
 
 export default router;

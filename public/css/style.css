@@ -4,6 +4,7 @@ body {
     
 }
 
+
 footer {
     padding-top: 300px;
     text-align: center;
@@ -52,5 +53,15 @@ footer {
 
 .pagination_nav {
     margin: 80px auto;
+}
+
+.container-fluid {
+    margin: 0;
+    padding: 0;
+}
+
+.input-group {
+    width: 25%;
+    margin: 20px auto;
 }
 

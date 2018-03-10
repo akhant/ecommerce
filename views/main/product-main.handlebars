@@ -1,16 +1,18 @@
 <div class="jumbotron" id="navbar-gap">
-    <div class="container">
-        <h1 class="display-3">Product main page</h1>
-        <p>Find what you want</p>
-        {{!--
-        <p>
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a>
-        </p> --}}
+    <div class="container-fluid">
+        <h1 class="display-3 text-center">Product main page</h1>
+        <p class="text-center">Use the search to find the best product</p>
+        
+                <div class="input-group col-md-12 text-center">
+                    <input type="text" class="form-control input-lg" name="search_term" ></input>
+                    <button type="submit" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-search" ></i>></button>
+                </div>
+           
     </div>
 </div>
 
 <div class="container">
-    <div class="row">
+    <div class="row" id="searchResults">
 
         {{#forEach products}}
         <div class="col-md-4">
@@ -26,7 +28,10 @@
             </a>
         </div>
         {{/forEach}}
-        <nav aria-label="Page navigation" class="pagination_nav">
+        
+
+    </div>
+    <nav aria-label="Page navigation" class="pagination_nav">
             <ul class="pagination text-center">
                 <li>
                     {{#eachIndex pages}}
@@ -41,6 +46,4 @@
                 </li>
             </ul>
         </nav>
-
-    </div>
 </div>

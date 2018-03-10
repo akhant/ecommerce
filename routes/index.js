@@ -2,36 +2,34 @@ const router = require("express").Router();
 import User from "../models/user";
 import Product from "../models/product";
 
-const paginate = (req,res,next) => {
+const paginate = (req, res, next) => {
   const perPage = 9;
-    const page = req.params.page;
+  const page = req.params.page;
 
-    Product.find()
-      .skip(perPage * page)
-      .limit(perPage)
-      .populate("category")
-      .exec((err, products) => {
+  Product.find()
+    .skip(perPage * page)
+    .limit(perPage)
+    .populate("category")
+    .exec((err, products) => {
+      if (err) return next(err);
+      Product.count().exec((err, count) => {
+        console.log("count", count);
         if (err) return next(err);
-        Product.count().exec((err, count) => {
-          console.log("count", count);
-          if (err) return next(err);
-          let pages= [];
-            for (let i=1;i<=count/perPage; i++) {
-              pages.push(i)
-            }
-          res.render("main/product-main", {
-            products,
-            pages
-          });
+        let pages = [];
+        for (let i = 1; i <= count / perPage; i++) {
+          pages.push(i);
+        }
+        res.render("main/product-main", {
+          products,
+          pages
         });
       });
-}
+    });
+};
 
-router.get('/page/:page', (req,res,next) => {
-  paginate(req,res,next)
-}
-)
-
+router.get("/page/:page", (req, res, next) => {
+  paginate(req, res, next);
+});
 
 //elastic search
 Product.createMapping((err, mapping) => {
@@ -60,7 +58,7 @@ stream.on("error", err => {
 //routes
 router.get("/", (req, res, next) => {
   if (req.user) {
-    paginate(req,res,next)
+    paginate(req, res, next);
   } else {
     res.render("main/home");
   }
