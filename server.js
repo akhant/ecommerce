@@ -73,13 +73,16 @@ app.use(flash());
 import router from "./routes";
 import userRoutes from "./routes/user";
 import adminRoutes from './routes/admin'
+import apiRoutes from './api'
 
 app.use(router);
 app.use(userRoutes);
 app.use(adminRoutes)
+app.use('/api', apiRoutes)
 
 //server
 app.listen(secret.port, err => {
   if (err) throw err;
   console.log("Server ok");
 });
+

@@ -1,0 +1,24 @@
+{{#not data}}
+<h3>Search not found</h3>
+{{else}}
+<h3>Results for {{ query}}</h3>
+<div class="container">
+    <div class="row">
+
+        {{#forEach data}}
+        <div class="col-md-4">
+            <a href="/product/{{_source._id}}">
+                <div class="thumbnail">
+                    <img src="{{_source.mage}}" style="width:300px;" alt="">
+                    <div class="caption">
+                        <h3>{{_source.name}}</h3>
+                        <p>{{_source.category.name}}</p>
+                        <p>${{_source.price}}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {{/forEach}}
+    </div>
+</div>
+{{/not}}
