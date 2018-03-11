@@ -6,17 +6,17 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="/">Home</a>
-    
+
   </div>
-<div class="col-sm-8">
-  <form class="navbar-form navbar-left navbar-search" action="/search" method="post">
+  <div class="col-sm-6">
+    <form class="navbar-form navbar-left navbar-search" action="/search" method="post">
       <div class="form-group">
         <input type="text" name="q" class="form-control" placeholder="Search...">
         <button class="btn btn-default" type="sumbit">search</button>
       </div>
     </form>
-</div>
-  <div class="col-sm-2">
+  </div>
+  <div class="col-sm-4">
 
     <ul class="nav navbar-nav navbar-user">
 
@@ -58,7 +58,18 @@
         </ul>
       </li>
 
-      {{/not}}
+      {{/not}} {{#if user}}
+      <li>
+        <a href="/cart" class="fa fa-shopping-cart">
+          <span class="badge">{{cart}}</span>
+        </a>
+      </li>
+      {{else}}
+      <li>
+        <a href="/cart" class="fa fa-shopping-cart">
+          <span class="badge">0</span>
+        </a>
+      </li>{{/if}}
 
     </ul>
 

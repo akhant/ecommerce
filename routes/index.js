@@ -1,6 +1,7 @@
 const router = require("express").Router();
 import User from "../models/user";
 import Product from "../models/product";
+import Cart from '../models/cart'
 
 const paginate = (req, res, next) => {
   const perPage = 9;
@@ -88,6 +89,22 @@ router.get("/product/:id", (req, res, next) => {
     });
   });
 });
+
+router.post("/product/:product_id", (req,res,next)=>{
+  Cart.findOne({owner: req.user._id}, (err,cart)=>{
+    cart.items.push({
+      item: req.body.product_id,
+      price: parseFloat(req.body.priceValue),
+      quantity: parseInt(req.body.quntity)
+    })
+    cart.total = (cart.total + parseFloat(req.body.priceValue)).toFixed(2)
+
+    cart.save((err)=>{
+      if (err) return next(err)
+      return res.redirect('cart')
+    })
+  })
+})
 
 //search
 router.get("/search", (req, res, next) => {
