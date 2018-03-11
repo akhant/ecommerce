@@ -1,5 +1,6 @@
 import secret from "./config/secret";
-import cartLength from "./middlewares";
+
+
 
 //express init
 import express from "express";
@@ -37,6 +38,7 @@ import passport from "passport";
 import session from "express-session";
 const MongoStore = require("connect-mongo")(session);
 import Category from "./models/category";
+import cartLength from "./middlewares";
 
 app.use(morgan("dev"));
 app.use(express.static(__dirname + "/public"));

@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            {{#if message }}
+            <div class="alert alert-success alert-dismissible">
+                <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+                </button>
+                {{ message }}
+            </div>
+            {{/if }} {{#forEach cart}}
+            <div class="list-group">
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span>
+                                <img src="{{item.image}}" alt="" class="product-image">
+                            </span>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="list-group-item-heding">{{item.name}}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>quantity: {{quantity}}</p>
+                            <p>Price: {{price}}</p>
+
+                            <form action="/remove" method="post">
+                                <input type="hidden" name="item" value="{{_id}}">
+                                <input type="hidden" name="price" value="{{price}}">
+                                <button class="btn" type="sumbit"> Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/forEach}}
+
+
+        </div>
+    </div>
+</div>

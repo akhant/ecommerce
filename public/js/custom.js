@@ -53,9 +53,11 @@ $(document).on("click", "#plus", e => {
   console.log("quantity", quantity)
 
   $("#quantity").val(quantity);
-  $("#priceValue").val(priceValue.toFixed(2));
   $("#total").html(quantity);
+  $("#priceValue").val(priceValue.toFixed(2));
+  
 });
+
 
 $(document).on("click", "#minus", e => {
   e.preventDefault();

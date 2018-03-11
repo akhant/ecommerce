@@ -8,9 +8,9 @@ export default (req,res,next) => {
                 for(let i=0; i< cart.items.length; i++) {
                     total += cart.items[i].quantity
                 }
-                res.locals.cart = total
+                res.locals.cartLength = total
             } else {
-                res.locals.cart = 0
+                res.locals.cartLength = 0
             }
             next()
         })

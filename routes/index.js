@@ -1,7 +1,9 @@
 const router = require("express").Router();
 import User from "../models/user";
 import Product from "../models/product";
-import Cart from '../models/cart'
+import Cart from "../models/cart";
+var stripe = require('stripe')('sk_test_AAm28GqQlnBKE4VxyaxTm8f1');
+
 
 const paginate = (req, res, next) => {
   const perPage = 9;
@@ -56,6 +58,68 @@ stream.on("error", err => {
   console.log("err", err);
 });
 
+//cart
+router.get("/cart", (req, res, next) => {
+  console.log("req.user._id", req.user._id);
+  Cart.findOne({ owner: req.user._id })
+    .populate("items.item")
+    .exec((err, cart) => {
+      if (err) return next(err);
+      console.log("cart", cart);
+      res.render("main/cart", {
+        cart: cart.items,
+        message: req.flash("remove")
+      });
+    });
+});
+//add to cart
+router.post("/product/:product_id", (req, res, next) => {
+  Cart.findOne({ owner: req.user._id }, (err, cart) => {
+    cart.items.push({
+      item: req.body.product_id,
+      price: parseFloat(req.body.priceValue),
+      quantity: parseInt(req.body.quantity)
+    });
+    cart.total = (cart.total + parseFloat(req.body.priceValue)).toFixed(2);
+
+    cart.save(err => {
+      if (err) return next(err);
+      return res.redirect("/cart");
+    });
+  });
+});
+
+//remove from cart
+router.post("/remove", (req, res, next) => {
+  Cart.findOne({ owner: req.user._id }, (err, cart) => {
+    cart.items.pull(String(req.body.item));
+
+    cart.total = cart.total - parseFloat(req.body.price).toFixed(2);
+    cart.save((err, found) => {
+      if (err) return next(err);
+      req.flash("remove", "Item succesfully removed");
+      res.redirect("/cart");
+    });
+  });
+});
+
+//stipe payment
+router.post("/payment", (req, res, next) => {
+  const stripeToken = req.body.stripeToken;
+  const currentCharges = Math.round(req.body.stipeMoney * 100);
+  stripe.customers
+    .create({
+      source: stripeToken
+    })
+    .then(customer => {
+      return stripe.charges.create({
+        amount: currentCharges,
+        currency: "usd",
+        customer: customer.id
+      });
+    });
+});
+
 //routes
 router.get("/", (req, res, next) => {
   if (req.user) {
@@ -89,22 +153,6 @@ router.get("/product/:id", (req, res, next) => {
     });
   });
 });
-
-router.post("/product/:product_id", (req,res,next)=>{
-  Cart.findOne({owner: req.user._id}, (err,cart)=>{
-    cart.items.push({
-      item: req.body.product_id,
-      price: parseFloat(req.body.priceValue),
-      quantity: parseInt(req.body.quntity)
-    })
-    cart.total = (cart.total + parseFloat(req.body.priceValue)).toFixed(2)
-
-    cart.save((err)=>{
-      if (err) return next(err)
-      return res.redirect('cart')
-    })
-  })
-})
 
 //search
 router.get("/search", (req, res, next) => {
