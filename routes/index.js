@@ -3,7 +3,7 @@ import User from "../models/user";
 import Product from "../models/product";
 import Cart from "../models/cart";
 var stripe = require('stripe')('sk_test_AAm28GqQlnBKE4VxyaxTm8f1');
-
+import waterfall from 'async/waterfall'
 
 const paginate = (req, res, next) => {
   const perPage = 9;
@@ -60,15 +60,16 @@ stream.on("error", err => {
 
 //cart
 router.get("/cart", (req, res, next) => {
-  console.log("req.user._id", req.user._id);
+ 
   Cart.findOne({ owner: req.user._id })
     .populate("items.item")
     .exec((err, cart) => {
       if (err) return next(err);
-      console.log("cart", cart);
+      
       res.render("main/cart", {
         cart: cart.items,
-        message: req.flash("remove")
+        message: req.flash("remove"),
+        total: cart.total
       });
     });
 });
@@ -106,7 +107,8 @@ router.post("/remove", (req, res, next) => {
 //stipe payment
 router.post("/payment", (req, res, next) => {
   const stripeToken = req.body.stripeToken;
-  const currentCharges = Math.round(req.body.stipeMoney * 100);
+  console.log("stripeMoney",typeof req.body.stripeMoney)
+  const currentCharges = Math.round(parseInt(req.body.stripeMoney)*100);
   stripe.customers
     .create({
       source: stripeToken
@@ -117,7 +119,39 @@ router.post("/payment", (req, res, next) => {
         currency: "usd",
         customer: customer.id
       });
-    });
+    }).then((charge) => {
+      waterfall([
+        function(cb) {
+          Cart.findOne({owner: req.user._id}, function(err,cart){
+            cb(err,cart)
+          })
+        },
+        function(cart, cb) {
+          User.findOne({_id: req.user._id}, function(err,user){
+            if(user){
+              for(let i = 0;i < cart.items.length; i++) {
+                user.history.push({
+                  item: cart.items[i].item,
+                  paid: cart.items[i].price
+                })
+              }
+              user.save((err,user)=>{
+                if(err) return next(err)
+                cb(err,user)
+              })
+            }
+          })
+        },
+        function(user,callback){
+          Cart.update({owner: user._id}, {$set: {items: [], total: 0}}, (err,updated)=>{
+            if(updated){
+              res.redirect('/profile')
+            }
+          })
+        }
+      ])
+    })
+    
 });
 
 //routes

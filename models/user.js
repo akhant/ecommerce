@@ -23,7 +23,7 @@ const UserSchema = new Schema({
   address: String,
   history: [
     {
-      date: Date,
+      item: { type: Schema.Types.ObjectId, ref: 'Product'},
       paid: { type: Number, default: 0 }
     }
   ]
