@@ -2,6 +2,8 @@ import passport from "passport";
 import User from "../models/user";
 
 const LocalStrategy = require("passport-local").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
+import secret from "./secret";
 
 //serialize and deserialize
 passport.serializeUser((user, done) => {
@@ -14,7 +16,7 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-//middleware
+//passpory login middleware
 passport.use(
   "local-login",
   new LocalStrategy(
@@ -23,7 +25,7 @@ passport.use(
       passwordField: "password",
       passReqToCallback: true
     },
-    function(req, email, password, done){
+    function(req, email, password, done) {
       User.findOne({ email: email }, function(err, user) {
         if (err) return done(err);
 
@@ -40,6 +42,50 @@ passport.use(
         }
 
         return done(null, user);
+      });
+    }
+  )
+);
+
+//facebook middleware
+passport.use(
+  new FacebookStrategy(
+    secret.facebook,
+    (token, refreshToken, profile, done) => {
+      User.findOne({ facebook: profile.id }, (err, user) => {
+        if (err) return done(err);
+        if (user) {
+          return done(null, user);
+        } else {
+          waterfall([
+            cb => {
+              const newUser = new User();
+              newUser.email = profile._json.email;
+              newUser.facebook = profile.id;
+              newUser.tokens.push({ kind: "facebook", token: token });
+              newUser.profile.name = profile.displayName;
+              newUser.profile.picture =
+                "https://graph.facebook.com" +
+                profile.id +
+                "/picture?type=large";
+
+              newUser.save(err => {
+                if (err) {
+                  throw err;
+                }
+                return done(null, newUser);
+              });
+            },
+            newUser => {
+              const cart = new Cart();
+              cart.owner = newUser._id;
+              cart.save(err => {
+                if (err) return done(err);
+                return done(err, newUser);
+              });
+            }
+          ]);
+        }
       });
     }
   )

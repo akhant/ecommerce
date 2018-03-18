@@ -24,10 +24,40 @@
                 <input type="password" class="form-control" name="password">
             </div>
 
-
-
             <button type="submit" class="btn btn-success" id="btn_submit">submit</button>
-
+<a href="/auth/facebook" class="text-center btn btn-block btn-social btn-facebook">
+<i class="fa fa-facebook"></i> Sign in with Facebook
+</a>
         </form>
     </div>
 </div>
+{{!-- <fb:login-button 
+  scope="public_profile,email"
+  onlogin="checkLoginState();">
+</fb:login-button>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{your-app-id}',
+      cookie     : true,
+      xfbml      : true,
+      version    : '{latest-api-version}'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+   FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+});
+</script> --}}

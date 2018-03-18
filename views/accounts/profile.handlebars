@@ -1,7 +1,7 @@
 <div class="container">
     <h1>Profile page</h1>
     <div class="row">
-        <div class="col-sm-6 cos-md-4">
+        <div class="col-sm-6 col-md-4">
             <img src="{{user.profile.picture}}" alt="pic" class="img-circle img-responsive img-center">
             <br/>
             <p>Name: {{user.profile.name}}</p>
@@ -12,10 +12,34 @@
             {{else}}
             <p>Address: {{user.address}}</p>
             {{/not}}
-            
+            <a href="/edit-profile" class="btn btn-primary btn-lg">Edit Profile</a>
         </div>
+        <div class="col-md-6">
+            <h2 class="text-center">
+                History 
+            </h2>
+            <table class="table table-striped sticky-header">
+            <thead>
+                <tr>
+                <th>Item's Name</th>
+                <th>Paid: </th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                {{#forEach history}}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ paid }}</td>
+                </tr>
+                {{/forEach}}
+            </tbody>
+        </table>
+        </div>   
+        
+        
         
     </div>
-    <a href="/edit-profile" class="btn btn-primary btn-lg">Edit Profile</a>
+    
 
 </div>

@@ -107,7 +107,7 @@ router.post("/remove", (req, res, next) => {
 //stipe payment
 router.post("/payment", (req, res, next) => {
   const stripeToken = req.body.stripeToken;
-  console.log("stripeMoney",typeof req.body.stripeMoney)
+  
   const currentCharges = Math.round(parseInt(req.body.stripeMoney)*100);
   stripe.customers
     .create({
